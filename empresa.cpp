@@ -1,136 +1,95 @@
-#include <iostream>
 #include <fstream>
-#include <vector>
+#include <iostream>
 #include <string>
+#include <vector>
 
-using namespace std;
-
-// Class for Product
 class Produto {
 public:
-    string nome;
-    double custo;
-    string dataFabricacao;
-    int codigo;
+  std::string nome;
+  float custo;
+  std::string dataFabricacao;
+  int codigo;
 
-    void cadastrarProduto() {
-        cout << "\nCadastro de Produto:\n";
-        cout << "Nome do Produto: ";
-        getline(cin, nome);
-        cout << "Custo: ";
-        cin >> custo;
-        cin.ignore(); // Clear input buffer
-        cout << "Data de Fabricação (dd/mm/aaaa): ";
-        getline(cin, dataFabricacao);
-        cout << "Código: ";
-        cin >> codigo;
-        cin.ignore(); // Clear input buffer
-
-        // Save to file
-        ofstream file("produtos.txt", ios::app);
-        if (file.is_open()) {
-            file << "Produto: " << nome << "\n";
-            file << "Custo: " << custo << "\n";
-            file << "Data de Fabricação: " << dataFabricacao << "\n";
-            file << "Código: " << codigo << "\n";
-            file << "------------------------\n";
-            file.close();
-            cout << "Produto salvo com sucesso em produtos.txt!\n";
-        } else {
-            cerr << "Erro ao abrir o arquivo produtos.txt!\n";
-        }
+  void salvarProduto(const std::string &nomeEmpresa) {
+    std::ofstream arquivo("produtos.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Empresa: " << nomeEmpresa << "\n";
+      arquivo << "Produto: " << nome << "\n";
+      arquivo << "Custo: " << custo << "\n";
+      arquivo << "Data de Fabricação: " << dataFabricacao << "\n";
+      arquivo << "Código: " << codigo << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
     }
+  }
 };
 
-// Class for Company
+class Departamento {
+  // Classe vazia por enquanto
+};
+
+class Refeitorio {
+  // Classe vazia por enquanto
+};
+
 class Empresa {
 public:
-    string nome;
-    string endereco;
-    string cnpj;
-    vector<Produto> produtos;
+  std::string nome;
+  std::string endereco;
+  std::string cnpj;
 
-    void cadastrarEmpresa() {
-        cout << "\nCadastro de Empresa:\n";
-        cout << "Nome: ";
-        getline(cin, nome);
-        cout << "Endereço: ";
-        getline(cin, endereco);
-        cout << "CNPJ: ";
-        getline(cin, cnpj);
-
-        // Save to file
-        ofstream file("empresa.txt", ios::app);
-        if (file.is_open()) {
-            file << "Empresa: " << nome << "\n";
-            file << "Endereço: " << endereco << "\n";
-            file << "CNPJ: " << cnpj << "\n";
-            file << "------------------------\n";
-            file.close();
-            cout << "Empresa salva com sucesso em empresa.txt!\n";
-        } else {
-            cerr << "Erro ao abrir o arquivo empresa.txt!\n";
-        }
+  void salvarEmpresa() {
+    std::ofstream arquivo("empresa.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Nome: " << nome << "\n";
+      arquivo << "Endereço: " << endereco << "\n";
+      arquivo << "CNPJ: " << cnpj << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
     }
-
-    void menuProdutos() {
-        int opcao;
-        do {
-            cout << "\nMenu de Produtos para a empresa: " << nome << "\n";
-            cout << "1. Cadastrar Produto\n";
-            cout << "2. Voltar ao Menu Principal\n";
-            cout << "Selecione uma opção: ";
-            cin >> opcao;
-            cin.ignore(); // Clear input buffer
-
-            switch (opcao) {
-            case 1: {
-                Produto produto;
-                produto.cadastrarProduto();
-                produtos.push_back(produto);
-                break;
-            }
-            case 2:
-                cout << "Voltando ao menu principal...\n";
-                break;
-            default:
-                cout << "Opção inválida! Tente novamente.\n";
-            }
-        } while (opcao != 2);
-    }
+  }
 };
 
 int main() {
-    Empresa empresa;
-    int opcao;
+  Empresa empresa;
+  Produto produto;
 
-    do {
-        cout << "\nMenu Principal:\n";
-        cout << "1. Cadastrar Empresa\n";
-        cout << "2. Menu de Produtos\n";
-        cout << "3. Sair\n";
-        cout << "Selecione uma opção: ";
-        cin >> opcao;
-        cin.ignore(); // Clear input buffer
+  std::cout << "Digite o nome da empresa: ";
+  std::getline(std::cin, empresa.nome);
 
-        switch (opcao) {
-        case 1:
-            empresa.cadastrarEmpresa();
-            break;
-        case 2:
-            if (empresa.nome.empty()) {
-                cout << "Nenhuma empresa cadastrada. Cadastre uma empresa primeiro!\n";
-            } else {
-                empresa.menuProdutos();
-            }
-            break;
-        case 3:
-            cout << "Saindo...\n";
-            break;
-        default:
-            cout << "Opção inválida! Tente novamente.\n";
-        }
-    } while (opcao != 3);
+  std::cout << "Digite o endereço da empresa: ";
+  std::getline(std::cin, empresa.endereco);
 
-    return 0;
+  std::cout << "Digite o CNPJ da empresa: ";
+  std::getline(std::cin, empresa.cnpj);
+
+  empresa.salvarEmpresa();
+
+  std::cout << "\nInformações sobre os produtos.\n";
+
+  char continuar = 's';
+  while (continuar == 's') {
+    std::cout << "Digite o nome do produto: ";
+    std::getline(std::cin, produto.nome);
+
+    std::cout << "Digite o custo do produto: ";
+    std::cin >> produto.custo;
+    std::cin.ignore();
+
+    std::cout << "Digite a data de fabricação do produto: ";
+    std::getline(std::cin, produto.dataFabricacao);
+
+    std::cout << "Digite o código do produto: ";
+    std::cin >> produto.codigo;
+    std::cin.ignore();
+
+    produto.salvarProduto(empresa.nome);
+
+    std::cout << "Deseja adicionar outro produto? (s/n): ";
+    std::cin >> continuar;
+    std::cin.ignore();
+  }
+
+  std::cout << "Informações salvas com sucesso!!" << std::endl;
+  return 0;
 }
