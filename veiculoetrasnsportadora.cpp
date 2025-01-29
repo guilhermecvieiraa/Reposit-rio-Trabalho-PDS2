@@ -49,7 +49,7 @@ public:
 };
 
 int main() {
-    // Informações da transportadora
+    
     string nomeTransportadora, enderecoTransportadora;
 
     cout << "Digite o nome da transportadora: ";
@@ -61,7 +61,6 @@ int main() {
     Transportadora transportadora(nomeTransportadora, enderecoTransportadora);
     transportadora.salvarTransportadora();
 
-    // Adicionar veículos
     char continuar = 's';
     while (continuar == 's') {
         string tipo, modelo, placa, documento;
