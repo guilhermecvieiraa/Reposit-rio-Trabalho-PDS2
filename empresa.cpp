@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include "Solicitacao.hpp"
-
+#include "Motorista.hpp"
 // as vezes nao compensaria usar using namespace std para organizar? 
 
 class Endereco{
@@ -180,22 +180,89 @@ int main() {
 
   std::cout << "Informações salvas com sucesso!!" << std::endl;
  
-// Implementacao da classe solicitacao(Denner) de entrega na main 
- std::cout << "\n=== Solicitação de Entrega ===\n";
+// Implementacao da classe solicitacao e motorista (Denner) na main, usei um switch para escolher opcoes
+ int opcao;
+    do {
+        std::cout << "\n\n(1) - Cadastrar Motorista.";
+        std::cout << "\n(2) - Cadastrar Entrega.";
+        std::cout << "\n(3) - Dados do Motoristas.";
+        std::cout << "\n(4) - Dados da Entrega.";
+        std::cout << "\n(5) - Sair.";
+        std::cout << "\n(*) - ";
+        std::cin >> opcao;
+        std::cin.ignore();
 
+        switch (opcao) {
+            case 1: {
+                Motorista motorista;
+                motorista.solicitarDadosM();
+                bancoDeMotoristas.push_back(motorista);
+                std::cout << "\nMotorista cadastrado com sucesso!\n";
+                break;
+            }
+
+            case 2: {
+                Solicitacao pedido;
+                pedido.solicitarDadosEntrega();
+                pedido.salvarEmArquivo();
+                bancoDeSolicitacoes.push_back(pedido);
+                break;
+            }
+
+            case 3: {
+                if (bancoDeMotoristas.empty()) {
+                    std::cout << "\nNão há motoristas cadastrados.\n";
+                } else {
+                    std::cout << "\nMotoristas cadastrados:\n";
+                    for (const auto& motorista : bancoDeMotoristas) {
+                        std::cout << "Nome: " << motorista.getNome() << std::endl;
+                        std::cout << "Idade: " << motorista.getIdadeMotorista() << std::endl;
+                        std::cout << "Número CNH: " << motorista.getNumeroCNH() << std::endl;
+                        std::cout << "Validade CNH: " << motorista.getValidadeCNH() << std::endl;
+                        std::cout << "Tipo CNH: " << motorista.getTipoCNH() << std::endl;
+                        std::cout << std::endl;
+                    }
+                }
+                break;
+            }
+
+            case 4: {
+                if (bancoDeSolicitacoes.empty()) {
+                    std::cout << "\nNão há entregas cadastradas.\n";
+                } else {
+                    std::cout << "\nEntregas cadastradas:\n";
+                    for (const auto& pedido : bancoDeSolicitacoes) {
+                        pedido.exibirDetalhes();
+                    }
+                }
+                break;
+            }
+
+            case 5: {
+                std::cout << "\nSaindo do programa...\n";
+                break;
+            }
+
+            default:
+                std::cout << "\nOpção inválida! Tente novamente.\n";
+                break;
+        }
+    } while (opcao != 5);
+
+    // Criando e exibindo uma solicitação de entrega
+    std::cout << "\n=== Solicitação de Entrega ===\n";
     Solicitacao pedido1;
     pedido1.solicitarDados();
     pedido1.exibirDetalhes();
     pedido1.salvarEmArquivo();
 
-  // Fiz essa solicitacao para simular como se ja tivesse uma solicitacao na fila quando o programa lesse o arquivo txt para pegar os dados 
-  
+    // Simulando uma solicitação de entrega já existente
     Solicitacao pedido2("Caminhão", "Lucas Lima", "Gustavo Corsão, 1470", 140, "Caixas de Eletrônicos");
     std::cout << "\nPedido anterior na fila de espera:" << std::endl;
     pedido2.exibirDetalhes();
     pedido2.salvarEmArquivo();
 
     std::cout << "Informações salvas com sucesso!!" << std::endl;
-    
+
     return 0;
 }
