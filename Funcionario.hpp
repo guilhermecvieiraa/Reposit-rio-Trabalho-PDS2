@@ -26,4 +26,21 @@ public:
     std::string getCargo() const;
 };
 
+class Cargos {
+public:
+  std::string nome_do_cargo;
+  float salario;
+
+  void salvarCargos(const std::string &cargoFuncionario) {
+    std::ofstream arquivo("cargos.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Funcionário: " << cargoFuncionario << "\n";
+      arquivo << "Nome do Cargo: " << nome_do_cargo << "\n";
+      arquivo << "Salário: " << salario << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
+    }
+  }
+};
+
 #endif
