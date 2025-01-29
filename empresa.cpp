@@ -343,11 +343,9 @@ int main() {
     std::cout << "Digite o Horário de Funcionamento do Refeitório: ";
     std::getline(std::cin, departamento.horario_de_funcionamento);
 
-    departamento.salvarRefeitorio();
-
-
-
-  std::cout << "Informações salvas com sucesso!!" << std::endl;
+    departamento.salvarRefeitorio(empresa.departamentos);
+     
+    std::cout << "Informações salvas com sucesso!!" << std::endl;
  
 // Implementacao da classe solicitacao e motorista (Denner) na main, usei um switch para escolher opcoes
  int opcao;
