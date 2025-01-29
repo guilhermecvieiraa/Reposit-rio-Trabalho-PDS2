@@ -256,7 +256,7 @@ int main() {
     // Criando e exibindo uma solicitação de entrega
     std::cout << "\n=== Solicitação de Entrega ===\n";
     Solicitacao pedido1;
-    pedido1.solicitarDados();
+    pedido1.solicitarDadosEntrega();
     pedido1.exibirDetalhes();
     pedido1.salvarEmArquivo();
 
