@@ -107,6 +107,10 @@ public:
 };
 
 int main() {
+  std::list<Motorista> bancoDeMotoristas;
+  std::list<Solicitacao> bancoDeSolicitacoes;
+
+  
   Empresa empresa;
   Produto produto;
   Departamento departamento;
