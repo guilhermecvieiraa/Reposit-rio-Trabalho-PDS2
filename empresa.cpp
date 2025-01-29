@@ -150,8 +150,39 @@ class Refeitorio {
 };
 
 class Funcionario {
-  // Classe vazia por enquanto
-  std::string nome;
+private:
+    std::string nome;
+    std::string idFuncionario;
+    std::string cargo;
+    Departamento departamento;
+
+public:
+    Funcionario(std::string nome, std::string id, std::string cargo, Departamento depto)
+        : nome(nome), idFuncionario(id), cargo(cargo), departamento(depto) {}
+
+    void setNome(const std::string& novoNome) { nome = novoNome; }
+    std::string getNome() const { return nome; }
+
+    void setIdFuncionario(const std::string& novoId) { idFuncionario = novoId; }
+    std::string getIdFuncionario() const { return idFuncionario; }
+
+    void setCargo(const std::string& novoCargo) { cargo = novoCargo; }
+    std::string getCargo() const { return cargo; }
+
+    void setDepartamento(const Departamento& novoDepto) { departamento = novoDepto; }
+    Departamento getDepartamento() const { return departamento; }
+
+    void salvarFuncionario() {
+        std::ofstream arquivo("funcionario.txt", std::ios::app);
+        if (arquivo.is_open()) {
+            arquivo << "Nome: " << nome << "\n";
+            arquivo << "ID: " << idFuncionario << "\n";
+            arquivo << "Cargo: " << cargo << "\n";
+            arquivo << "Departamento: " << departamento.nome << "\n";
+            arquivo << "-----------------------------\n";
+            arquivo.close();
+        }
+    }
 };
 
 class Empresa {
