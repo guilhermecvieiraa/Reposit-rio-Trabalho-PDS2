@@ -2,7 +2,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Solicitacao.hpp"
 
+// as vezes nao compensaria usar using namespace std para organizar? 
 
 class Endereco{
   public:
@@ -177,5 +179,23 @@ int main() {
 
 
   std::cout << "Informações salvas com sucesso!!" << std::endl;
-  return 0;
+ 
+// Implementacao da classe solicitacao(Denner) de entrega na main 
+ std::cout << "\n=== Solicitação de Entrega ===\n";
+
+    Solicitacao pedido1;
+    pedido1.solicitarDados();
+    pedido1.exibirDetalhes();
+    pedido1.salvarEmArquivo();
+
+  // Fiz essa solicitacao para simular como se ja tivesse uma solicitacao na fila quando o programa lesse o arquivo txt para pegar os dados 
+  
+    Solicitacao pedido2("Caminhão", "Lucas Lima", "Gustavo Corsão, 1470", 140, "Caixas de Eletrônicos");
+    std::cout << "\nPedido anterior na fila de espera:" << std::endl;
+    pedido2.exibirDetalhes();
+    pedido2.salvarEmArquivo();
+
+    std::cout << "Informações salvas com sucesso!!" << std::endl;
+    
+    return 0;
 }
