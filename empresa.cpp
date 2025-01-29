@@ -167,6 +167,23 @@ class Refeitorio {
   }  
 };
 
+class Cargos {
+public:
+  std::string nome_do_cargo;
+  float salario;
+
+  void salvarCargos(const std::string &cargoFuncionario) {
+    std::ofstream arquivo("cargos.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Funcionário: " << cargoFuncionario << "\n";
+      arquivo << "Nome do Cargo: " << nome_do_cargo << "\n";
+      arquivo << "Salário: " << salario << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
+    }
+  }
+};
+
 class Funcionario {
 private:
     std::string nome;
@@ -346,6 +363,22 @@ int main() {
     departamento.salvarRefeitorio(empresa.departamentos);
      
     std::cout << "Informações salvas com sucesso!!" << std::endl;
+  }
+
+  char continuar = 's';
+  while (continuar == 's') {
+    std::cout << "Digite o Nome do Cargo: ";
+    std::getline(std::cin, cargos.nome_do_cargo);
+
+    std::cout << "Digite o Salário do Cargo: ";
+    std::cin >> cargos.salario;
+    std::cin.ignore();
+
+    produto.salvarCargos(funcionario.cargo);
+
+    std::cout << "Informações salvas com sucesso!!" << std::endl;
+  }
+
  
 // Implementacao da classe solicitacao e motorista (Denner) na main, usei um switch para escolher opcoes
  int opcao;
