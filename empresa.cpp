@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cctype>
 #include "Solicitacao.hpp"
 #include "Motorista.hpp"
 // as vezes nao compensaria usar using namespace std para organizar? 
@@ -28,6 +29,56 @@ class Endereco{
  }
 };
 
+class Pessoa
+{
+private:
+    std::string cpf;
+
+    // Método privado para validar se o CPF tem exatamente 11 dígitos numéricos
+    bool validarCPF(const std::string& cpf) {
+        if (cpf.length() != 11) return false; // O CPF deve ter exatamente 11 dígitos
+        
+        for (char c : cpf) {
+            if (!std::isdigit(c)) return false; // Verifica se há caracteres não numéricos
+        }
+        return true;
+    }
+    std::string formatarCPF(const std::string& cpf) {
+        return cpf.substr(0, 3) + "." + cpf.substr(3, 3) + "." + cpf.substr(6, 3) + "-" + cpf.substr(9, 2);
+    }
+    //Verificar se o número de telefone é válido
+    std::string numero;
+    bool validarNumero(const std::string& numero) {
+        if (numero.length() != 11) return false; // O Numero deve ter exatamente 11 dígitos (XX) 9 XXXX-XXXX
+        
+        for (char c : numero) {
+            if (!std::isdigit(c)) return false; // Verifica se há caracteres não numéricos
+        }
+        return true;
+    }
+    std::string formatarNumero(const std::string& numero) {
+        return "(" + numero.substr(0, 2) + ")" + numero.substr(2, 5) + "-" + numero.substr(7, 4);
+    }
+
+public:
+  std::string Nome;
+  Endereco endereco;
+  std::string cpf;
+  std::string telefone;
+  void salvarPessoa(){
+    std::ofstream arquivo("pessoa.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Nome: " << Nome << "\n";
+      arquivo << "Endereço: " << endereco.rua << ", n°" << endereco.numero << " - " << endereco.bairro << " - " << endereco.cep;
+      arquivo << "CPF: " << cpf << "\n";
+      arquivo << "Telefone: " << telefone << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
+    }
+  }
+
+};
+
 class Produto {
 public:
   std::string nome;
@@ -48,7 +99,27 @@ public:
     }
   }
 };
-
+class Trabalho
+{
+  public:
+  std::string tipo;
+  std::string tempoExec;
+  std::string detalheTrabalho;
+  std::string custo;
+  Departamento departamento;
+  void salvarTrabalho(){
+    std::ofstream arquivo("trabalho.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Tipo: " << tipo << "\n";
+      arquivo << "Tempo de Execução: " << tempoExec << "\n";
+      arquivo << "Detalhes do Trabalho: " << detalheTrabalho << "\n";
+      arquivo << "Custo: " << custo << "\n";
+      aquivo << "Departamento: " << departamento << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
+    }
+  }
+};
 class Departamento{
     public:
         std::string nome;
@@ -115,6 +186,8 @@ int main() {
   Produto produto;
   Departamento departamento;
   Endereco endereco;
+  Pessoa pessoa;
+  Trabalho trabalho;
 
   std::cout << "Digite o nome da empresa: ";
   std::getline(std::cin, empresa.nome);
@@ -137,6 +210,32 @@ int main() {
   std::cout << "Digite o complemento do endereço da empresa: ";
   std::getline(std::cin, endereco.complemento);
 
+  //Cadastrar Pessoa
+  std::cout << "Digite o nome da pessoa: ";
+  std::cin >> pessoa.Nome;
+
+  std::cout << "Digite o CPF da pessoa: (Apenas numeros)";
+  std::cin >> pessoa.cpf;
+
+  std::cout << "Digite o telefone da pessoa: (Apenas numeros)";
+  std::cin >> pessoa.telefone;
+
+  pessoa.salvarPessoa();
+
+//Cadastrar Trabalho
+  std::cout << "Digite o tipo de trabalho: ";
+  std::cin >> trabalho.tipo;
+  
+  std::cout << "Digite o tempo de execução do trabalho: ";
+  std::cin >> trabalho.tempoExec;
+
+  std::cout << "Digite os detalhes do trabalho: ";
+  std::cin >> trabalho.detalheTrabalho;
+
+  std::cout << "Digite o custo do trabalho: ";
+  std::cin >> trabalho.custo;
+
+  trabalho.salvarTrabalho();
 
 
   empresa.salvarEmpresa();
