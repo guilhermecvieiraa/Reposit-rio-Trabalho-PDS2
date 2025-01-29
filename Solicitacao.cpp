@@ -1,23 +1,27 @@
-#include "Solicitacao.hpp" 
+#include "Solicitacao.hpp"
+#include <iostream>
+#include <fstream>
 
-//construtora
-Solicitacao::Solicitacao(string veiculo, string motorista, string endereco, double valorFrete, string produto) {
+list<Motorista> Solicitacao::bancoMotoristas; // corrigido 
+
+Solicitacao::Solicitacao(string veiculo, Motorista motorista, string endereco, double valorFrete, string produto) {
     this->veiculo = veiculo;
     this->motorista = motorista;
     this->endereco = endereco;
     this->valorFrete = valorFrete;
     this->produto = produto;
 }
-//para caso nao for passado dados criei essa funcao para perguntar e pedir o dado
-void Solicitacao::solicitarDados() {
+
+void Solicitacao::solicitarDadosEntrega() {
     if (veiculo.empty()) { 
         cout << "Digite o veículo a ser usado para a entrega: ";
         getline(cin, veiculo);
     }
 
-    if (motorista.empty()) {
-        cout << "Digite o nome do motorista: ";
-        getline(cin, motorista);
+    if (!verificarMotorista(motorista.getNome())) {
+        cout << "Motorista não cadastrado! Cadastre o motorista primeiro.\n";
+        motorista.solicitarDadosM();
+        cadastrarMotorista(motorista);
     }
 
     if (endereco.empty()) {
@@ -28,7 +32,7 @@ void Solicitacao::solicitarDados() {
     if (valorFrete == 0.0) {
         cout << "Digite o valor do frete: ";
         cin >> valorFrete;
-        cin.ignore(); // fiz essa pq é bom para evitar problema com o getline 
+        cin.ignore();
     }
 
     if (produto.empty()) {
@@ -38,30 +42,40 @@ void Solicitacao::solicitarDados() {
 }
 
 void Solicitacao::exibirDetalhes() const {
-        cout << "\n=====  Recibo Solicitação Numero 2 =====\n";
-        cout << "Veículo: " << veiculo << endl;
-        cout << "Motorista: " << motorista << endl;
-        cout << "Endereço: " << endereco << endl;
-        cout << "Valor do frete: R$ " << valorFrete << endl;
-        cout << "Produto: " << produto << endl;
-    }
+    cout << "\n=====  Recibo Solicitação =====\n";
+    cout << "Veículo: " << veiculo << endl;
+    cout << "Motorista: " << motorista.getNome() << endl;
+    cout << "Endereço: " << endereco << endl;
+    cout << "Valor do frete: R$ " << valorFrete << endl;
+    cout << "Produto: " << produto << endl;
+}
 
 void Solicitacao::salvarEmArquivo() {
-        ofstream arquivo("solicitacao.txt"); // Abre/cria o arquivo
+    ofstream arquivo("solicitacao.txt");
 
-        if (arquivo.is_open()) {
-            arquivo << "=== SOLICITACAO DE ENTREGA ===\n";
-            arquivo << "Veículo: " << veiculo << "\n";
-            arquivo << "Motorista: " << motorista << "\n";
-            arquivo << "Endereço: " << endereco << "\n";
-            arquivo << "Valor do frete: R$ " << valorFrete << "\n";
-            arquivo << "Produto: " << produto << "\n";
-            arquivo.close(); // Fecha o arquivo
-            cout << "\nDados salvos com sucesso em 'solicitacao.txt'!\n";
-        } else {
-            cout << "Erro ao criar o arquivo!\n";
+    if (arquivo.is_open()) {
+        arquivo << "=== SOLICITACAO DE ENTREGA ===\n";
+        arquivo << "Veículo: " << veiculo << "\n";
+        arquivo << "Motorista: " << motorista.getNome() << "\n";
+        arquivo << "Endereço: " << endereco << "\n";
+        arquivo << "Valor do frete: R$ " << valorFrete << "\n";
+        arquivo << "Produto: " << produto << "\n";
+        arquivo.close();
+        cout << "\nDados salvos com sucesso em 'solicitacao.txt'!\n";
+    } else {
+        cout << "Erro ao criar o arquivo!\n";
+    }
+}
+
+void Solicitacao::cadastrarMotorista(const Motorista& m) {
+    bancoMotoristas.push_back(m);
+}
+
+bool Solicitacao::verificarMotorista(const string& nomeMotorista) {
+    for (const auto& motorista : bancoMotoristas) {
+        if (motorista.getNome() == nomeMotorista) {
+            return true;
         }
     }
-
-
-
+    return false;
+}
