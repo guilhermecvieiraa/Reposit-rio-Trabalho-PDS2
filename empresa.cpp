@@ -121,11 +121,11 @@ class Trabalho
   }
 };
 class Departamento{
-    public:
-        std::string nome;
-        std::string gestor;
-        std::vector<Funcionario> funcionarios;
-        std::string trabalhos;
+public:
+  std::string nome;
+  std::string gestor;
+  std::vector<Funcionario> funcionarios;
+  std::string trabalhos;
 
         void salvarDepartamento(){
             std::ofstream arquivo("departamento.txt", std::ios::app);
@@ -146,7 +146,25 @@ class Departamento{
 };
 
 class Refeitorio {
-  // Classe vazia por enquanto
+  public:
+  std::string localizacao;
+  std::string cozinheira_chefe;
+  std::string comodidade;
+  std::string horario_de_funcionamento;
+  Empresa empresa;
+
+  void salvarRefeitorio(const std::string &nomeEmpresa) {
+    std::ofstream arquivo("refeitorio.txt", std::ios::app);
+    if (arquivo.is_open()) {
+      arquivo << "Localização: " << localizacao << "\n";
+      arquivo << "Cozinheira Chefe: " << cozinheira_chefe << "\n";
+      arquivo << "Comodidade: " << comodidade << "\n";
+      arquivo << "Horário de Funcionamento: " << horario_de_funcionamento << "\n";
+      aquivo << "Empresa: " << empresa << "\n";
+      arquivo << "-----------------------------\n";
+      arquivo.close();
+    }
+  }  
 };
 
 class Funcionario {
@@ -216,6 +234,7 @@ int main() {
   Empresa empresa;
   Produto produto;
   Departamento departamento;
+  Refeitorio refeitorio;
   Endereco endereco;
   Pessoa pessoa;
   Trabalho trabalho;
@@ -309,6 +328,22 @@ int main() {
 
     departamento.salvarDepartamento();
   }
+
+  char continuar = 's';
+  while (continuar == 's') {
+    std::cout << "Digite a localização do Refeitório: ";
+    std::getline(std::cin, departamento.localizacao);
+
+    std::cout << "Digite o nome da Cozinheira Chefe do Refeitório: ";
+    std::getline(std::cin, departamento.cozinheira_chefe);
+
+    std::cout << "Digite a Comodidade do Refeitório: ";
+    std::getline(std::cin, departamento.comodidade);
+
+    std::cout << "Digite o Horário de Funcionamento do Refeitório: ";
+    std::getline(std::cin, departamento.horario_de_funcionamento);
+
+    departamento.salvarRefeitorio();
 
 
 
