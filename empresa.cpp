@@ -260,13 +260,6 @@ int main() {
     pedido1.exibirDetalhes();
     pedido1.salvarEmArquivo();
 
-    // Simulando uma solicitação de entrega já existente
-    Solicitacao pedido2("Caminhão", motorista, "Gustavo Corsão, 1470", 140, "Caixas de Eletrônicos");
-    std::cout << "\nPedido anterior na fila de espera:" << std::endl;
-    pedido2.exibirDetalhes();
-    pedido2.salvarEmArquivo();
-
-    std::cout << "Informações salvas com sucesso!!" << std::endl;
-
+    
     return 0;
 }
